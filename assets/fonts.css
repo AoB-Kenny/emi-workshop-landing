@@ -1,0 +1,20 @@
+/* ============================================================
+   emi.atmet · lokal gehostete Schriften (Deutsch-Subset)
+   Newsreader (Serif, Headlines + poetische Kursive)
+   Instrument Sans (Fließtext, Labels)
+   DSGVO: KEINE Verbindung zu Google/Drittservern.
+   ============================================================ */
+
+/* — Newsreader (Serif) — */
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:500;font-display:swap;src:url(fonts/newsreader-500.woff2) format('woff2');}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/newsreader-600.woff2) format('woff2');}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400;font-display:swap;src:url(fonts/newsreader-400i.woff2) format('woff2');}
+
+/* — Instrument Sans (Fließtext) — */
+@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/instrument-sans-400.woff2) format('woff2');}
+@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:500;font-display:swap;src:url(fonts/instrument-sans-500.woff2) format('woff2');}
+@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/instrument-sans-600.woff2) format('woff2');}
+
+/* — Fallback-Metriken gegen Layout-Shift (size-adjust genähert; in QA gegen CLS geprüft) — */
+@font-face{font-family:'Newsreader Fallback';src:local('Georgia'),local('Times New Roman');ascent-override:92%;descent-override:24%;line-gap-override:0%;size-adjust:103%;}
+@font-face{font-family:'Instrument Fallback';src:local('Arial'),local('Helvetica Neue');ascent-override:95%;descent-override:24%;line-gap-override:0%;size-adjust:99%;}

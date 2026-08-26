@@ -439,6 +439,24 @@ section{padding:var(--sp-6) 0}
   padding:4px 11px; border-radius:var(--pill); margin-bottom:var(--sp-3);
 }
 
+/* ---------- Stimme ---------- */
+.stimme{
+  max-width:660px; margin-inline:auto; text-align:center;
+}
+.stimme .mark{
+  font-family:var(--serif); font-size:52px; line-height:1; color:var(--clay);
+  opacity:.75; display:block; margin-bottom:2px;
+}
+.stimme blockquote{
+  margin:0; font-family:var(--serif); font-style:italic; font-weight:500;
+  font-size:var(--step-2); line-height:1.5; color:var(--ink);
+}
+.stimme cite{
+  display:block; margin-top:var(--sp-3); font-family:var(--sans); font-style:normal;
+  font-size:var(--step--1); font-weight:600; letter-spacing:var(--ls-label);
+  text-transform:uppercase; color:var(--sage-deep);
+}
+
 /* ---------- FAQ ---------- */
 .faq{max-width:760px; margin-inline:auto}
 .faq details{border-top:1px solid var(--line); padding:var(--sp-3) 0}

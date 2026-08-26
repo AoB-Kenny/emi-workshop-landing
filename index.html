@@ -10,15 +10,11 @@
 <!-- ============================================================
      OFFENE PLATZHALTER (vor dem Livegang ersetzen, alle greppbar):
        CHECKOUT_URL          Stripe Payment Link, 2 Stellen
-       STORNOBEDINGUNGEN     letzte FAQ-Antwort
-       ZWEITEILIG?           atemtraum.de nennt Mutterlinien "ein zweiteiliger
-                             Selbsterfahrungsprozess". Diese Seite verkauft einen
-                             Termin. Klären, ob der 12.09. Teil 1 von 2 ist.
-       Stimmen               echte Rückmeldungen aus dem Juli-Durchgang, nichts erfunden
-       webp                  fehlt, dieser Rechner hat keinen Encoder.
-                             `brew install webp`, dann cwebp über assets/img/*.jpg
-       Meta-Pixel            liegt auskommentiert unten, braucht vorher ein CMP
-       Bildrechte            Teilnehmende sind erkennbar, Einwilligungen prüfen (KUG §22)
+       META_PIXEL_ID         in assets/consent.js, sobald die Pixel-ID da ist
+
+     Von Emi am 26.08.2026 beantwortet und eingebaut: Stornobedingungen,
+     Adressen, Mitbringen, Bildrechte (Einwilligungen liegen vor), und
+     der Termin am 12.09. ist ein einzelner Workshop.
      ============================================================ -->
 
 <meta property="og:type" content="website">
@@ -69,7 +65,8 @@
           <a class="btn btn-lg" href="#anmeldung">Platz sichern <span class="arr" aria-hidden="true">→</span></a>
           <a class="btn btn-lg btn-ghost" href="#ablauf">Was dich erwartet</a>
         </div>
-        <p class="cta-note">Max. 12 Plätze · 130 € pro Person · zum zweiten Mal, nach einem ersten Durchgang im Juli</p>
+        <!-- data-seats-left: die beiden Stellen mit der Live-Zahl. Siehe ../TODO.md -->
+        <p class="cta-note"><span data-seats-left>Noch 7 von 12 Plätzen frei</span> · 130 € pro Person · zum zweiten Mal, nach einem ersten Durchgang im Juli</p>
       </div>
 
       <div class="figure-wrap reveal d1">
@@ -173,8 +170,8 @@
           </svg>
         </div>
         <ol class="q-list">
-          <li class="q-item reveal"><span>Was bleibt</span><p>Was davon möchte ich behalten?</p></li>
-          <li class="q-item reveal d1"><span>Was nicht meins ist</span><p>Was gehört vielleicht gar nicht zu mir?</p></li>
+          <li class="q-item reveal"><span>Was nicht meins ist</span><p>Was gehört vielleicht gar nicht zu mir?</p></li>
+          <li class="q-item reveal d1"><span>Was bleibt</span><p>Was davon möchte ich behalten?</p></li>
           <li class="q-item reveal d2"><span>Was ich wähle</span><p>Und was darf ich heute anders machen?</p></li>
         </ol>
       </div>
@@ -198,7 +195,7 @@
         <div class="step reveal d1">
           <p class="t">Impulse</p>
           <h3>Verstehen</h3>
-          <p>Moderne Bindungsforschung und Neurobiologie, verständlich erklärt. Was frühe Erfahrungen von Nähe im Nervensystem hinterlassen, ohne Fachjargon und ohne Diagnose.</p>
+          <p>Moderne Bindungsforschung und Neurobiologie, verständlich erklärt. Was frühe Erfahrungen von Nähe und Distanz im Nervensystem hinterlassen, ohne Fachjargon und ohne Diagnose.</p>
         </div>
         <div class="step reveal d2">
           <p class="t">Reflexion</p>
@@ -318,6 +315,23 @@
     </div>
   </section>
 
+  <!-- ============ STIMME ============ -->
+  <!-- Wortlaut unverändert übernommen, inklusive der Stelle über Heilung.
+       Entscheidung von Kenny am 26.08.2026, Freigabe mit Namen liegt vor. -->
+  <section id="stimmen">
+    <div class="wrap-n">
+      <div class="sec-head reveal" style="text-align:center">
+        <p class="eyebrow" style="justify-content:center">Aus dem ersten Durchgang</p>
+        <h2 style="max-width:20ch;margin-inline:auto">Was eine Teilnehmerin danach geschrieben hat.</h2>
+      </div>
+      <figure class="stimme reveal d1">
+        <span class="mark" aria-hidden="true">„</span>
+        <blockquote>Liebe Emi, von Herzen DANKE für die erfüllende Erfahrung gestern. Ich bin ganz beseelt und gelöst. Ich fühle, dass ich gerade in tiefe Heilung komme 😇. Es ist unbeschreiblich schön, dass Ihr Eure Berufung auf so lichtvolle Weise in die Welt bringt. Sonnige Grüße &amp; bis zum nächsten Mal, Anja ☀️</blockquote>
+        <figcaption><cite>Anja · Mutterlinien im Juli</cite></figcaption>
+      </figure>
+    </div>
+  </section>
+
   <!-- ============ ANMELDUNG ============ -->
   <section id="anmeldung">
     <div class="wrap-n">
@@ -338,7 +352,7 @@
           </ul>
         </div>
         <div class="book-side">
-          <span class="seats">Max. 12 Plätze</span>
+          <span class="seats" data-seats-left>Noch 7 Plätze frei</span>
           <div>
             <!-- CHECKOUT_URL (1/2) · Stripe Payment Link -->
             <a class="btn btn-lg" href="CHECKOUT_URL" data-checkout>Platz sichern <span class="arr" aria-hidden="true">→</span></a>
@@ -388,7 +402,10 @@
         </details>
         <details>
           <summary>Kann ich meinen Platz stornieren?</summary>
-          <div class="a"><p>STORNOBEDINGUNGEN_TODO. Hier gehört Emis tatsächliche Regelung hin, zum Beispiel bis wann kostenfrei storniert werden kann und ob der Platz weitergegeben werden darf.</p></div>
+          <div class="a">
+            <p>Bis 14 Tage vor dem Workshop kannst du kostenfrei stornieren, du bekommst den vollen Betrag zurück. Zwischen 13 und 7 Tagen vorher werden 50 Prozent fällig, also 65 Euro. Ab 6 Tagen vorher oder wenn du nicht erscheinst, wird der volle Beitrag von 130 Euro fällig.</p>
+            <p>Du kannst deinen Platz aber jederzeit kostenfrei an jemand anderen weitergeben. Sag Emi einfach Bescheid, wer statt dir kommt.</p>
+          </div>
         </details>
       </div>
     </div>
@@ -459,7 +476,13 @@
   "location":{
     "@type":"Place",
     "name":"Element Ost",
-    "address":{"@type":"PostalAddress","addressLocality":"Leipzig","addressCountry":"DE"}
+    "address":{
+      "@type":"PostalAddress",
+      "streetAddress":"Schulze-Delitzsch-Straße 19",
+      "postalCode":"04315",
+      "addressLocality":"Leipzig",
+      "addressCountry":"DE"
+    }
   },
   "organizer":{"@type":"Person","name":"Emily Müller","url":"https://emi-atmet.de/"},
   "performer":[

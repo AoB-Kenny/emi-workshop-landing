@@ -451,6 +451,9 @@ section{padding:var(--sp-6) 0}
   margin:0; font-family:var(--serif); font-style:italic; font-weight:500;
   font-size:var(--step-2); line-height:1.5; color:var(--ink);
 }
+/* Emoji haben keinen kursiven Schnitt, der Browser schert sie sonst
+   künstlich schräg. In einem kursiven Zitat sieht das schief aus. */
+.emoji{font-style:normal; display:inline-block; font-synthesis:none}
 .stimme cite{
   display:block; margin-top:var(--sp-3); font-family:var(--sans); font-style:normal;
   font-size:var(--step--1); font-weight:600; letter-spacing:var(--ls-label);

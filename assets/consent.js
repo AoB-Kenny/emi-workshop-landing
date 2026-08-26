@@ -118,7 +118,7 @@
         'welche Anzeige dich hergebracht hat. Das passiert nur, wenn du zustimmst. ' +
         'Deine Entscheidung wird in deinem Browser gespeichert und du kannst sie jederzeit ' +
         'unten über „Cookie-Einstellungen" ändern. Mehr dazu in der ' +
-        '<a href="https://emi-atmet.de/datenschutz.html">Datenschutzerklärung</a>.</p>' +
+        '<a href="datenschutz.html">Datenschutzerklärung</a>.</p>' +
         '<div class="cc-row">' +
           '<button type="button" class="btn btn-ghost cc-no">Ablehnen</button>' +
           '<button type="button" class="btn cc-yes">Akzeptieren</button>' +

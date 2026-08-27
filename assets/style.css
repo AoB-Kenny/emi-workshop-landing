@@ -329,6 +329,9 @@ section{padding:var(--sp-6) 0}
   background:rgba(245,239,231,.05); border:1px solid rgba(245,239,231,.16);
   border-radius:var(--radius-lg); padding:clamp(24px,3vw,30px);
 }
+/* Der Schritt nach dem Workshop-Tag. Volle Breite, weil er außerhalb
+   der vier Stunden liegt und sich optisch absetzen soll. */
+.step-wide{grid-column:1 / -1}
 .step::before{
   counter-increment:step; content:"0" counter(step);
   font-family:var(--serif); font-size:34px; font-weight:500; color:var(--sage);

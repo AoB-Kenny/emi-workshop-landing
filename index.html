@@ -68,8 +68,10 @@
           <a class="btn btn-lg" href="#anmeldung">Platz sichern <span class="arr" aria-hidden="true">→</span></a>
           <a class="btn btn-lg btn-ghost" href="#ablauf">Was dich erwartet</a>
         </div>
-        <!-- data-seats-left: die beiden Stellen mit der Live-Zahl. Siehe ../TODO.md -->
-        <p class="cta-note"><span data-seats-left>Noch 7 von 12 Plätzen frei</span> · 130 € pro Person · zum zweiten Mal, nach einem ersten Durchgang im Juli</p>
+        <!-- Bewusst keine Zahl freier Plätze. Die müsste nach jeder Buchung von
+             Hand geändert werden, und Stripe schaltet den Bezahl-Link sowieso
+             automatisch ab, sobald das Kontingent erreicht ist. -->
+        <p class="cta-note">Max. 12 Plätze · 130 € pro Person · zum zweiten Mal, nach einem ersten Durchgang im Juli</p>
       </div>
 
       <div class="figure-wrap reveal d1">
@@ -363,7 +365,7 @@
           </ul>
         </div>
         <div class="book-side">
-          <span class="seats" data-seats-left>Noch 7 Plätze frei</span>
+          <span class="seats">Max. 12 Plätze</span>
           <div>
             <!-- CHECKOUT_URL (1/2) · Stripe Payment Link -->
             <a class="btn btn-lg" href="CHECKOUT_URL" data-checkout>Platz sichern <span class="arr" aria-hidden="true">→</span></a>

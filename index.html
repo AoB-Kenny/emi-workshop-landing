@@ -8,13 +8,11 @@
 <link rel="canonical" href="https://mutterlinien.emi-atmet.de/">
 
 <!-- ============================================================
-     OFFENE PLATZHALTER (vor dem Livegang ersetzen, alle greppbar):
-       CHECKOUT_URL          Stripe Payment Link, 2 Stellen
-       META_PIXEL_ID         in assets/consent.js, sobald die Pixel-ID da ist
+     Inhaltlich fertig. Einziger offener Platzhalter:
+       META_PIXEL_ID   in assets/consent.js, sobald die ID von Nico da ist
 
-     Von Emi am 26.08.2026 beantwortet und eingebaut: Stornobedingungen,
-     Adressen, Mitbringen, Bildrechte (Einwilligungen liegen vor), und
-     der Termin am 12.09. ist ein einzelner Workshop.
+     Stripe Payment Link seit 27.08.2026 eingebaut, an zwei Stellen.
+     Beide Buttons tragen data-checkout, daran hängt InitiateCheckout.
      ============================================================ -->
 
 <meta property="og:type" content="website">
@@ -367,8 +365,7 @@
         <div class="book-side">
           <span class="seats">Max. 12 Plätze</span>
           <div>
-            <!-- CHECKOUT_URL (1/2) · Stripe Payment Link -->
-            <a class="btn btn-lg" href="CHECKOUT_URL" data-checkout>Platz sichern <span class="arr" aria-hidden="true">→</span></a>
+            <a class="btn btn-lg" href="https://buy.stripe.com/5kQbJ47PY8wn8SWbN78Vi00" data-checkout>Platz sichern <span class="arr" aria-hidden="true">→</span></a>
           </div>
           <p class="pay-methods">Karte · PayPal · Klarna<br>Apple Pay · Google Pay</p>
           <p class="cta-note">Bezahlung über Stripe. Es gelten die
@@ -430,8 +427,7 @@
       <h2 style="max-width:20ch;margin-inline:auto">Wenn dich das Thema <em>berührt</em>, ist das Grund genug.</h2>
       <p class="lead" style="margin:0 auto var(--sp-4);max-width:46ch">Du musst noch nicht wissen, was du davon erwartest. Der Raum ist am 12. September für vier Stunden offen.</p>
       <div class="cta-row" style="justify-content:center">
-        <!-- CHECKOUT_URL (2/2) · Stripe Payment Link -->
-        <a class="btn btn-lg" href="CHECKOUT_URL" data-checkout>Platz sichern <span class="arr" aria-hidden="true">→</span></a>
+        <a class="btn btn-lg" href="https://buy.stripe.com/5kQbJ47PY8wn8SWbN78Vi00" data-checkout>Platz sichern <span class="arr" aria-hidden="true">→</span></a>
       </div>
       <p class="cta-note">130 € pro Person · max. 12 Plätze · Leipzig</p>
     </div>

@@ -23,7 +23,7 @@
 (function () {
   'use strict';
 
-  var PIXEL_ID = 'META_PIXEL_ID';        // TODO ersetzen, siehe TODO.md
+  var PIXEL_ID = '4636136706618538';     // Meta Events Manager, eingetragen 31.08.2026
   var KEY = 'emi-consent';
   var MAX_AGE_DAYS = 365;
 

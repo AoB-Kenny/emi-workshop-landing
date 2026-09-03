@@ -25,7 +25,17 @@
 
   var PIXEL_ID = '4636136706618538';     // Meta Events Manager, eingetragen 31.08.2026
   var KEY = 'emi-consent';
+  var CID_KEY = 'emi-cid';
   var MAX_AGE_DAYS = 365;
+
+  /* Conversions API. Der Browser schickt dasselbe Event zusaetzlich an unseren
+     Server, der es an Meta weiterreicht. Beide tragen dieselbe event_id, damit
+     Meta sie als ein Ereignis zaehlt statt als zwei.
+
+     Der Server sieht nur, was hier steht. Ohne Einwilligung wird gar nichts
+     gesendet, auch serverseitig nicht (LG Leipzig 04.07.2025, OLG Muenchen
+     18.12.2025 - die CAPI ist ausdruecklich mitgemeint). */
+  var CAPI_ENDPOINT = 'https://n8n.nicosmat.com/webhook/capi/emi';
 
   /* ---------- Speicher ---------- */
   function read() {
@@ -79,7 +89,9 @@
     /* eslint-enable */
 
     fbq('init', PIXEL_ID);
-    fbq('track', 'PageView');
+    var pvId = uuid();
+    fbq('track', 'PageView', {}, { eventID: pvId });
+    sendServer('PageView', pvId, {});
     flushQueue();
   }
 
@@ -101,6 +113,73 @@
 
   function granted() { var c = read(); return !!(c && c.marketing); }
 
+  /* ---------- Conversions API ---------- */
+
+  function uuid() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0;
+      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+  }
+
+  /* Pseudonyme Kennung dieses Browsers. Entsteht erst NACH der Einwilligung und
+     wandert als client_reference_id mit zu Stripe, damit der spaetere Kauf demselben
+     Besuch zugeordnet werden kann, ohne dass wir dafuer eine Mailadresse brauchen. */
+  function cid() {
+    if (!granted()) return null;
+    try {
+      var v = localStorage.getItem(CID_KEY);
+      if (!v) { v = uuid(); localStorage.setItem(CID_KEY, v); }
+      return v;
+    } catch (e) { return null; }
+  }
+
+  function cookie(name) {
+    var m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return m ? m.pop() : null;
+  }
+
+  /* Meta braucht _fbc fuer die Klick-Zuordnung. Es entsteht nur, wenn der Pixel
+     beim Eintreffen mit ?fbclid= schon geladen war - nach dem Consent-Klick ist
+     das oft nicht mehr der Fall, also bauen wir es notfalls selbst. */
+  function fbc() {
+    var c = cookie('_fbc');
+    if (c) return c;
+    var m = location.search.match(/[?&]fbclid=([^&]+)/);
+    return m ? 'fb.1.' + Date.now() + '.' + m[1] : null;
+  }
+
+  function sendServer(name, eventID, params) {
+    if (!granted()) return;
+    var body = JSON.stringify({
+      event_name: name,
+      event_id: eventID,
+      event_time: Math.floor(Date.now() / 1000),
+      event_source_url: location.href,
+      cid: cid(),
+      fbp: cookie('_fbp'),
+      fbc: fbc(),
+      params: params || {}
+    });
+    try {
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon(CAPI_ENDPOINT, new Blob([body], { type: 'application/json' }));
+      } else {
+        fetch(CAPI_ENDPOINT, { method: 'POST', body: body, keepalive: true,
+                               headers: { 'Content-Type': 'application/json' } });
+      }
+    } catch (e) { /* Tracking darf die Seite nie kaputt machen */ }
+  }
+
+  /* Ein Event, zwei Wege, eine ID. */
+  function trackBoth(name, params) {
+    if (!granted()) return;
+    var eventID = uuid();
+    track(name, params, eventID);
+    sendServer(name, eventID, params);
+  }
+
   /* ---------- Banner ---------- */
   var el = null;
 
@@ -114,7 +193,8 @@
     el.innerHTML =
       '<div class="cc-card">' +
         '<p class="cc-title">Kurz gefragt</p>' +
-        '<p class="cc-text">Diese Seite kann den Meta-Pixel laden, damit Emi sieht, ' +
+        '<p class="cc-text">Diese Seite kann den Meta-Pixel laden und dieselben ' +
+        'Ereignisse zusätzlich über unseren Server an Meta übermitteln, damit Emi sieht, ' +
         'welche Anzeige dich hergebracht hat. Das passiert nur, wenn du zustimmst. ' +
         'Deine Entscheidung wird in deinem Browser gespeichert und du kannst sie jederzeit ' +
         'unten über „Cookie-Einstellungen" ändern. Mehr dazu in der ' +
@@ -152,6 +232,7 @@
     revokeIfNeeded: function () {
       if (window.__emiConsentWasGranted && !granted()) {
         dropMetaCookies();
+        try { localStorage.removeItem(CID_KEY); } catch (e) {}
         location.reload();
       }
     }
@@ -182,6 +263,15 @@
   document.addEventListener('click', function (e) {
     var a = e.target.closest ? e.target.closest('[data-checkout]') : null;
     if (!a) return;
-    track('InitiateCheckout', { value: 130, currency: 'EUR', content_name: 'Mutterlinien 12.09.2026' });
+    trackBoth('InitiateCheckout',
+              { value: 130, currency: 'EUR', content_name: 'Mutterlinien 12.09.2026' });
+
+    /* Die Kennung reist als client_reference_id mit zu Stripe. Der Stripe-Webhook
+       schickt sie zurueck, und erst dadurch laesst sich der Kauf serverseitig
+       demselben Besuch zuordnen. Ohne Einwilligung passiert das nicht. */
+    var id = cid();
+    if (id && a.href && a.href.indexOf('client_reference_id=') === -1) {
+      a.href += (a.href.indexOf('?') === -1 ? '?' : '&') + 'client_reference_id=' + id;
+    }
   });
 })();
